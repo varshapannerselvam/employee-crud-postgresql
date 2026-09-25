@@ -1,8 +1,9 @@
 # Employee CRUD API
 
-A simple CRUD (Create, Read, Update, Delete) REST API built with Flask and SQLAlchemy, using a SQLite database.
+A simple CRUD (Create, Read, Update, Delete) REST API built with Flask and Flask-SQLAlchemy, using a PostgreSQL database.
 
 ## Features
+
 - Create an employee
 - Get all employees
 - Get one employee by ID
@@ -10,80 +11,145 @@ A simple CRUD (Create, Read, Update, Delete) REST API built with Flask and SQLAl
 - Delete an employee
 
 ## Tech Stack
+
 - Python
 - Flask
 - Flask-SQLAlchemy
 - PostgreSQL
+- Psycopg2
+
+## Project Structure
+
+```text
+employee-crud-postgresql/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
 ## Setup
 
-1. Make sure PostgreSQL is installed and running on your machine.
+### 1. Install PostgreSQL
 
-2. Create the database (run this once, in `psql` or pgAdmin):
-   ```sql
-   CREATE DATABASE employee_db;
-   ```
+Make sure PostgreSQL is installed and running on your computer.
 
-3. Create a virtual environment (optional but recommended):
-   ```
-   python -m venv venv
-   venv\Scripts\activate      # Windows
-   source venv/bin/activate   # Mac/Linux
-   ```
+### 2. Create the Database
 
-4. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
+Create the database using PostgreSQL or pgAdmin:
 
-5. Set your database credentials. Either edit the `DB_USERNAME` / `DB_PASSWORD` /
-   `DB_HOST` / `DB_PORT` / `DB_NAME` defaults directly in `app.py`, or set
-   environment variables before running (recommended so you never commit a
-   real password):
-   ```
-   export DB_USERNAME=postgres
-   export DB_PASSWORD=your_actual_password
-   export DB_NAME=employee_db
-   ```
-   (On Windows, use `set` instead of `export`.)
+```sql
+CREATE DATABASE employee_db;
+```
 
-6. Run the app:
-   ```
-   python app.py
-   ```
+### 3. Create a Virtual Environment
 
-The API will run at `http://127.0.0.1:5000/`
+```powershell
+python -m venv venv
+```
+
+Activate the virtual environment on Windows:
+
+```powershell
+venv\Scripts\activate
+```
+
+### 4. Install Dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 5. Configure Database
+
+Set your PostgreSQL database details using environment variables.
+
+For Windows PowerShell:
+
+```powershell
+$env:DB_USERNAME="postgres"
+$env:DB_PASSWORD="your_password"
+$env:DB_HOST="127.0.0.1"
+$env:DB_PORT="5432"
+$env:DB_NAME="employee_db"
+```
+
+> Never commit your real database password to GitHub.
+
+### 6. Run the Application
+
+```powershell
+python app.py
+```
+
+The API will run at:
+
+```text
+http://127.0.0.1:5000/
+```
 
 ## API Endpoints
 
-| Method | Endpoint              | Description            |
-|--------|-----------------------|-------------------------|
-| GET    | /                      | Health check            |
-| POST   | /employees             | Create a new employee   |
-| GET    | /employees             | Get all employees       |
-| GET    | /employees/<id>        | Get employee by ID      |
-| PUT    | /employees/<id>        | Update employee by ID   |
-| DELETE | /employees/<id>        | Delete employee by ID   |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Health check |
+| POST | `/employees` | Create a new employee |
+| GET | `/employees` | Get all employees |
+| GET | `/employees/<id>` | Get employee by ID |
+| PUT | `/employees/<id>` | Update employee by ID |
+| DELETE | `/employees/<id>` | Delete employee by ID |
 
-### Sample request body (POST / PUT)
+## Sample Request Body
+
+For `POST /employees`:
+
 ```json
 {
-  "name": "Varsha",
-  "email": "varsha@example.com",
-  "department": "QA",
-  "salary": 30000
+    "name": "Varsha",
+    "email": "varsha@example.com",
+    "department": "QA",
+    "salary": 30000
 }
 ```
 
-## Pushing to GitHub
+For `PUT /employees/<id>`:
 
-1. Create a new repository on GitHub (don't initialize with a README).
-2. In this project folder, run:
-   ```
-   git init
-   git add .
-   git commit -m "Employee CRUD API with Flask and SQLAlchemy"
-   git branch -M main
-   git remote add origin <your-repo-url>
-   git push -u origin main
-   ```
+```json
+{
+    "salary": 35000
+}
+```
+
+## Database
+
+The application uses PostgreSQL with Flask-SQLAlchemy.
+
+The `employee` table contains:
+
+- `id`
+- `name`
+- `email`
+- `department`
+- `salary`
+- `created_at`
+
+## CRUD Operations
+
+| Operation | HTTP Method | Endpoint |
+|-----------|-------------|----------|
+| Create | POST | `/employees` |
+| Read All | GET | `/employees` |
+| Read One | GET | `/employees/<id>` |
+| Update | PUT | `/employees/<id>` |
+| Delete | DELETE | `/employees/<id>` |
+
+## Pushing Changes to GitHub
+
+After making changes to the README:
+
+```powershell
+git add .
+git commit -m "Update README for PostgreSQL"
+git push
+```
